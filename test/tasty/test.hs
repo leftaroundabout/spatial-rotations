@@ -38,6 +38,13 @@ tests = testGroup "Tests"
     , testCase "z around x" $ rotateX (S¹ π'₂) (S² 0   0  ) @?≈ S² π'₂ (-π'₂)
     , testCase "z around y" $ rotateY (S¹ π'₂) (S² 0   0  ) @?≈ S² π'₂ 0
     , testCase "z around z" $ rotateZ (S¹ π'₂) (S² 0   0  ) @?≈ S² 0   π'₂
+    
+    , testCase "around y, over x" $ rotateY (S¹ π'₂) (S² π'₄  0   ) @?≈ S² π³₄ 0
+    , testCase "around z, over x" $ rotateZ (S¹ π'₂) (S² π'₂(-π'₄)) @?≈ S² π'₂ π'₄
+    , testCase "around x, over y" $ rotateX (S¹ π'₂) (S² π³₄  π'₂ ) @?≈ S² π'₄ π'₂
+    , testCase "around z, over y" $ rotateZ (S¹ π'₂) (S² π'₂  π'₄ ) @?≈ S² π'₂ π³₄
+    , testCase "around x, over z" $ rotateX (S¹ π'₂) (S² π'₄  π'₂ ) @?≈ S² π'₄ (-π'₂)
+    , testCase "around y, over z" $ rotateY (S¹ π'₂) (S² π'₄  π   ) @?≈ S² π'₄ 0
     ]
  , testGroup "Concrete 45° rotations"
     [ testCase "x around x" $ rotateX (S¹ π'₄) (S² π'₂ 0  ) @?≈ S² π'₂ 0
