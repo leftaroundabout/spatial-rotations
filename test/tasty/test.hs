@@ -28,11 +28,31 @@ main = defaultMain tests
 
 tests :: TestTree
 tests = testGroup "Tests"
- [ testGroup "Concrete 90° rotations"
+ [ testGroup "Concrete 180° rotations"
+    [ testCase "x around x" $ rotateX (S¹ π) (S² π'₂ 0  ) @?≈ S² π'₂ 0
+    , testCase "..and back" $ rotateX (S¹ $ -π)              (S² π'₂ 0     )@?≈ S² π'₂ 0
+    , testCase "x around y" $ rotateY (S¹ π) (S² π'₂ 0  ) @?≈ S² π'₂ π
+    , testCase "..and back" $ rotateY (S¹ $ -π)              (S² π'₂ π     )@?≈ S² π'₂ 0
+    , testCase "x around z" $ rotateZ (S¹ π) (S² π'₂ 0  ) @?≈ S² π'₂ π
+    , testCase "..and back" $ rotateZ (S¹ $ -π)              (S² π'₂ π     )@?≈ S² π'₂ 0
+    , testCase "y around x" $ rotateX (S¹ π) (S² π'₂ π'₂) @?≈ S² π'₂ (-π'₂)
+    , testCase "..and back" $ rotateX (S¹ $ -π)              (S² π'₂ (-π'₂))@?≈ S² π'₂ π'₂
+    , testCase "y around y" $ rotateY (S¹ π) (S² π'₂ π'₂) @?≈ S² π'₂ π'₂
+    , testCase "..and back" $ rotateY (S¹ $ -π)              (S² π'₂ π'₂   )@?≈ S² π'₂ π'₂
+    , testCase "y around z" $ rotateZ (S¹ π) (S² π'₂ π'₂) @?≈ S² π'₂ (-π'₂)
+    , testCase "..and back" $ rotateZ (S¹ $ -π)              (S² π'₂ (-π'₂))@?≈ S² π'₂ π'₂
+    , testCase "z around x" $ rotateX (S¹ π) (S² 0   0  ) @?≈ S² π   0
+    , testCase "..and back" $ rotateX (S¹ $ -π)              (S² π   0     )@?≈ S² 0   0
+    , testCase "z around y" $ rotateY (S¹ π) (S² 0   0  ) @?≈ S² π   0
+    , testCase "..and back" $ rotateY (S¹ $ -π)              (S² π   0     )@?≈ S² 0   0
+    , testCase "z around z" $ rotateZ (S¹ π) (S² 0   0  ) @?≈ S² 0   0
+    , testCase "..and back" $ rotateZ (S¹ $ -π)              (S² 0   0     )@?≈ S² 0   0
+    ]
+ , testGroup "Concrete 90° rotations"
     [ testCase "x around x" $ rotateX (S¹ π'₂) (S² π'₂ 0  ) @?≈ S² π'₂ 0
     , testCase "..and back" $ rotateX (S¹ $ -π'₂)              (S² π'₂ 0     )@?≈ S² π'₂ 0
-    , testCase "x around y" $ rotateY (S¹ π'₂) (S² π'₂ 0  ) @?≈ S² pi  0
-    , testCase "..and back" $ rotateY (S¹ $ -π'₂)              (S² pi  0     )@?≈ S² π'₂ 0
+    , testCase "x around y" $ rotateY (S¹ π'₂) (S² π'₂ 0  ) @?≈ S² π   0
+    , testCase "..and back" $ rotateY (S¹ $ -π'₂)              (S² π   0     )@?≈ S² π'₂ 0
     , testCase "x around z" $ rotateZ (S¹ π'₂) (S² π'₂ 0  ) @?≈ S² π'₂ π'₂
     , testCase "..and back" $ rotateZ (S¹ $ -π'₂)              (S² π'₂ π'₂   )@?≈ S² π'₂ 0
     , testCase "y around x" $ rotateX (S¹ π'₂) (S² π'₂ π'₂) @?≈ S² 0   0
