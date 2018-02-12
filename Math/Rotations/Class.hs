@@ -15,6 +15,7 @@ module Math.Rotations.Class ( Rotatable (..)
                             -- * Internals
                             , rotmatrixForAxis
                             , eulerAnglesZYZForMatrix
+                            , rotmatrixForEulerAnglesZYZ
                             ) where
 
 import Math.Manifold.Core.Types
@@ -65,6 +66,14 @@ rotmatrixForAxis (ℝP² rax φax) = rotAroundAxis
        e₁ = sin φax * sin θax
        e₂ = cos θax
 
+rotmatrixForEulerAnglesZYZ :: [ℝ] -> [[ℝ]]
+rotmatrixForEulerAnglesZYZ angles
+              = [[ cy*cz₀*cz₁-sz₀*sz₁, -cz₁*sz₀-cy*cz₀*sz₁,  sy*cz₀ ]
+                ,[ cy*cz₁*sz₀+cz₀*sz₁,  cz₀*cz₁-cy*sz₀*sz₁,  sy*sz₀ ]
+                ,[      -sy*cz₁      ,        sy*sz₁      ,    cy   ]]
+ where [cz₀,cy,cz₁] = cos<$>angles
+       [sz₀,sy,sz₁] = sin<$>angles
+
 eulerAnglesZYZForMatrix :: [[ℝ]] -> [ℝ]             
 eulerAnglesZYZForMatrix [[r₀₀,r₀₁,r₀₂]
                         ,[r₁₀,r₁₁,r₁₂]
@@ -111,7 +120,6 @@ eulerAnglesZYZForMatrix [[r₀₀,r₀₁,r₀₂]
          -- 
               θz₁ = atan2 (-r₀₀*sz₀ - r₀₁*cz₀)
                           ( r₁₀*sz₀ + r₁₁*cz₀)
-
 
 instance Rotatable S² where
   type AxisSpace S² = ℝP²

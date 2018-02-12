@@ -79,6 +79,9 @@ tests = testGroup "Tests"
                       @?≈ [ 0  ,  0 ,-π'₂]
     , testCase " 45° z-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis zAxis (S¹ π'₄))
                       @?≈ [ 0  , 0  , π'₄]
+    , QC.testProperty "Arbitrary rotation-matrix reconstruction"
+         $ \ax α -> let mat = rotmatrixForAxis ax α
+                    in rotmatrixForEulerAnglesZYZ (eulerAnglesZYZForMatrix mat) ≈ mat
     ]
  , testGroup "Concrete 180° rotations"
     [ testCase "x around x" $ rotateX (S¹ π) (S² π'₂ 0  ) @?≈ S² π'₂ 0
