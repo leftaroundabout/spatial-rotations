@@ -79,18 +79,18 @@ rotateViaEulerAnglesYZ yRot zRot (ℝP² rax φax) = rotAroundAxis
               θz₀ = atan2 r₁₂ r₀₂  ; sz₀ = sin θz₀; cz₀ = cos θz₀
          -- ...noting however that this becomes underconstrained for small |sy|, so
          -- the analogous θz₁ = atan2 r₂₁ (-r₂₀) should /not/ be used. Instead, put
-         -- in the x unit vector turned back by θy and θz₀:
-         -- ⎛ r₀₀ r₀₁ r₀₂ ⎞   ⎛ cy·cz₀ -cy·sz₀ -sy ⎞⁻¹  ⎛1⎞   ⎛ cz₁ -sz₁ 0 ⎞⎛1⎞   ⎛cz₁⎞
-         -- ⎜ r₁₀ r₁₁ r₁₂ ⎟ · ⎜  sz₀     cz₀    0  ⎟  $ ⎜0⎟ = ⎜ sz₁  cz₁ 0 ⎟⎜0⎟ = ⎜sz₁⎟
-         -- ⎝ r₂₀ r₂₁ r₂₂ ⎠   ⎝ sy·cz₀    0     cy ⎠    ⎝0⎠   ⎝  0    0  1 ⎠⎝0⎠   ⎝ 0 ⎠
+         -- in the y unit vector turned back by θz₀ (θy has no effect):
+         -- ⎛ r₀₀ r₀₁ r₀₂ ⎞   ⎛ cy·cz₀ -cy·sz₀ -sy ⎞⁻¹  ⎛0⎞   ⎛ cz₁ -sz₁ 0 ⎞⎛0⎞   ⎛-sz₁⎞
+         -- ⎜ r₁₀ r₁₁ r₁₂ ⎟ · ⎜  sz₀     cz₀    0  ⎟  $ ⎜1⎟ = ⎜ sz₁  cz₁ 0 ⎟⎜1⎟ = ⎜ cz₁⎟
+         -- ⎝ r₂₀ r₂₁ r₂₂ ⎠   ⎝ sy·cz₀    0     cy ⎠    ⎝0⎠   ⎝  0    0  1 ⎠⎝0⎠   ⎝  0 ⎠
          --
          -- Here we have, using orthogonality,
-         -- ⎛ cy·cz₀ -cy·sz₀ -sy ⎞⁻¹⎛1⎞   ⎛  cy·cz₀  sz₀ sy·cz₀ ⎞⎛1⎞   ⎛ cy·cz₀ ⎞
-         -- ⎜  sz₀     cz₀    0  ⎟  ⎜0⎟ = ⎜ -cy·sz₀  cz₀   0    ⎟⎜0⎟ = ⎜-cy·sz₀ ⎟
-         -- ⎝ sy·cz₀    0     cy ⎠  ⎝0⎠   ⎝   -sy     0    cy   ⎠⎝0⎠   ⎝  -sy   ⎠
+         -- ⎛ cy·cz₀ -cy·sz₀ -sy ⎞⁻¹⎛0⎞   ⎛  cy·cz₀  sz₀ sy·cz₀ ⎞⎛0⎞   ⎛sz₀⎞
+         -- ⎜  sz₀     cz₀    0  ⎟  ⎜1⎟ = ⎜ -cy·sz₀  cz₀   0    ⎟⎜1⎟ = ⎜cz₀⎟
+         -- ⎝ sy·cz₀    0     cy ⎠  ⎝0⎠   ⎝   -sy     0    cy   ⎠⎝0⎠   ⎝ 0 ⎠
          -- 
-              θz₁ = atan2 (r₁₀*cy*cz₀ - r₁₁*cy*sz₀ - r₁₂*sy)
-                          (r₀₀*cy*cz₀ - r₀₁*cy*sz₀ - r₀₂*sy)
+              θz₁ = atan2 (-r₀₀*sz₀ - r₀₁*cz₀)
+                          ( r₁₀*sz₀ + r₁₁*cz₀)
        
        θax = pi/2 * rax
        e₀ = cos φax * sin θax
