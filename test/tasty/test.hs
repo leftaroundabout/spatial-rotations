@@ -141,6 +141,10 @@ tests = testGroup "Tests"
     , testCase "z around y" $ rotateY (S¹ π'₄) (S² 0   0  ) @?≈ S² π'₄ 0
     , testCase "z around z" $ rotateZ (S¹ π'₄) (S² 0   0  ) @?≈ S² 0   π'₂
     ]
+ , testGroup "Reversability"
+    [ QC.testProperty "Arbitrary axis, angles and points"
+           $ \ax ψ p -> rotateAboutThenUndo ax ψ p ≈ p
+    ]
  ]
  where π = pi
        π'₂ = pi/2
@@ -182,3 +186,5 @@ xAxis = ℝP² 1 0
 yAxis = ℝP² 1 (pi/2)
 zAxis = ℝP² 0 0
 
+rotateAboutThenUndo :: ℝP² -> S¹ -> S² -> S²
+rotateAboutThenUndo ax ψ@(S¹ w) p = rotateAbout ax (S¹ $ -w) $ rotateAbout ax ψ p
