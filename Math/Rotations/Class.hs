@@ -29,8 +29,8 @@ class Rotatable m where
 instance Rotatable S¹ where
   type AxisSpace S¹ = ℝP⁰
   rotateAbout ℝPZero (S¹ δφ) (S¹ φ)
-    | φ' > pi    = S¹ $ φ-tau
-    | φ' < -pi   = S¹ $ φ+tau
+    | φ' > pi    = S¹ $ φ'-tau
+    | φ' < -pi   = S¹ $ φ'+tau
     | otherwise  = S¹ φ'
    where φ' = φ + δφ
 
