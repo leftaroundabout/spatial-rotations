@@ -1,6 +1,6 @@
 -- |
 -- Module      : Main
--- Copyright   : (c) Justus Sagemüller 2017
+-- Copyright   : (c) Justus Sagemüller 2018
 -- License     : GPL v3
 -- 
 -- Maintainer  : (@) sagemueller $ geo.uni-koeln.de
@@ -28,7 +28,33 @@ main = defaultMain tests
 
 tests :: TestTree
 tests = testGroup "Tests"
- [ testGroup "Concrete 180° rotations"
+ [ testGroup "Rotation matrices"
+    [ testCase "180° x-axis" $ rotmatrixForAxis xAxis (S¹ π)
+                      @?≈ [ [1,0,0], [0,-1,0], [0,0,-1] ]
+    , testCase " 90° x-axis" $ rotmatrixForAxis xAxis (S¹ π'₂)
+                      @?≈ [ [1,0,0], [0,0,-1], [0,1,0] ]
+    , testCase "-90° x-axis" $ rotmatrixForAxis xAxis (S¹ $ -π'₂)
+                      @?≈ [ [1,0,0], [0,0,1], [0,-1,0] ]
+    , testCase " 45° x-axis" $ rotmatrixForAxis xAxis (S¹ π'₄)
+                      @?≈ [ [1,0,0], [0,sqrt 2/2,-sqrt 2/2], [0,sqrt 2/2,sqrt 2/2] ]
+    , testCase "180° y-axis" $ rotmatrixForAxis yAxis (S¹ π)
+                      @?≈ [ [-1,0,0], [0,1,0], [0,0,-1] ]
+    , testCase " 90° y-axis" $ rotmatrixForAxis yAxis (S¹ π'₂)
+                      @?≈ [ [0,0,1], [0,1,0], [-1,0,0] ]
+    , testCase "-90° y-axis" $ rotmatrixForAxis yAxis (S¹ $ -π'₂)
+                      @?≈ [ [0,0,-1], [0,1,0], [1,0,0] ]
+    , testCase " 45° y-axis" $ rotmatrixForAxis yAxis (S¹ π'₄)
+                      @?≈ [ [sqrt 2/2,0,sqrt 2/2], [0,1,0], [-sqrt 2/2,0,sqrt 2/2] ]
+    , testCase "180° z-axis" $ rotmatrixForAxis zAxis (S¹ π)
+                      @?≈ [ [-1,0,0], [0,-1,0], [0,0,1] ]
+    , testCase " 90° z-axis" $ rotmatrixForAxis zAxis (S¹ π'₂)
+                      @?≈ [ [0,-1,0], [1,0,0], [0,0,1] ]
+    , testCase "-90° z-axis" $ rotmatrixForAxis zAxis (S¹ $ -π'₂)
+                      @?≈ [ [0,1,0], [-1,0,0], [0,0,1] ]
+    , testCase " 45° z-axis" $ rotmatrixForAxis zAxis (S¹ π'₄)
+                      @?≈ [ [sqrt 2/2,-sqrt 2/2,0], [sqrt 2/2,sqrt 2/2,0], [0,0,1] ]
+    ]
+ , testGroup "Concrete 180° rotations"
     [ testCase "x around x" $ rotateX (S¹ π) (S² π'₂ 0  ) @?≈ S² π'₂ 0
     , testCase "..and back" $ rotateX (S¹ $ -π)              (S² π'₂ 0     )@?≈ S² π'₂ 0
     , testCase "x around y" $ rotateY (S¹ π) (S² π'₂ 0  ) @?≈ S² π'₂ π
@@ -98,16 +124,22 @@ infix 4 ≈
 class AEq e where
   (≈) :: e -> e -> Bool
 
+instance AEq Double where
+  x ≈ y = abs (x-y) < 1e-9
 instance AEq S¹ where
   S¹ φ ≈ S¹ ϕ
    | φ > pi/2, ϕ < -pi/2  = S¹ (φ - 2*pi) ≈ S¹ ϕ
    | ϕ > pi/2, φ < -pi/2  = S¹ φ ≈ S¹ (ϕ - 2*pi)
-   | otherwise            = abs (φ - ϕ) < 1e-9
+   | otherwise            = φ ≈ ϕ
 instance AEq S² where
   S² θ φ ≈ S² ϑ ϕ
    | φ > pi/2, ϕ < -pi/2  = S² θ (φ - 2*pi) ≈ S² ϑ ϕ
    | ϕ > pi/2, φ < -pi/2  = S² θ φ ≈ S² ϑ (ϕ - 2*pi)
-   | otherwise            = abs (θ - ϑ) < 1e-9 && abs (φ - ϕ) * sin θ < 1e-9
+   | otherwise            = θ ≈ ϑ && abs (φ - ϕ) * sin θ < 1e-9
+instance AEq a => AEq [a] where
+  [] ≈ [] = True
+  x:xs ≈ y:ys = x ≈ y && xs ≈ ys
+  _ ≈ _ = False
 
                   
 infix 1 @?≈       
@@ -116,4 +148,8 @@ a@?≈b
  | a≈b        = return ()
  | otherwise  = assertFailure $ "Expected "++show b++", but got "++show a
 
+xAxis, yAxis, zAxis :: ℝP²
+xAxis = ℝP² 1 0
+yAxis = ℝP² 1 (pi/2)
+zAxis = ℝP² 0 0
 
