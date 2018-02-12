@@ -68,9 +68,9 @@ rotmatrixForAxis (ℝP² rax φax) = rotAroundAxis
 
 rotmatrixForEulerAnglesZYZ :: [ℝ] -> [[ℝ]]
 rotmatrixForEulerAnglesZYZ angles
-              = [[ cy*cz₀*cz₁-sz₀*sz₁, -cz₁*sz₀-cy*cz₀*sz₁,  sy*cz₀ ]
-                ,[ cy*cz₁*sz₀+cz₀*sz₁,  cz₀*cz₁-cy*sz₀*sz₁,  sy*sz₀ ]
-                ,[      -sy*cz₁      ,        sy*sz₁      ,    cy   ]]
+              = [[ cy*cz₀*cz₁-sz₀*sz₁, -cy*sz₀*cz₁-cz₀*sz₁,  sy*cz₁ ]
+                ,[ cy*cz₀*sz₁+cz₁*sz₀,  cz₀*cz₁-cy*sz₀*sz₁,  sy*sz₁ ]
+                ,[      -sy*cz₀      ,        sy*sz₀      ,    cy   ]]
  where [cz₀,cy,cz₁] = cos<$>angles
        [sz₀,sy,sz₁] = sin<$>angles
 
@@ -82,17 +82,17 @@ eulerAnglesZYZForMatrix [[r₀₀,r₀₁,r₀₂]
  where
          -- Rotation matrix for z₀-y-z₁ rotation, with cy := cos θy etc.:
          --
-         -- ⎛ r₀₀ r₀₁ r₀₂ ⎞   ⎛ cz₁ -sz₁ 0 ⎞   ⎛ cy  0 -sy ⎞   ⎛ cz₀ -sz₀ 0 ⎞
+         -- ⎛ r₀₀ r₀₁ r₀₂ ⎞   ⎛ cz₁ -sz₁ 0 ⎞   ⎛ cy  0  sy ⎞   ⎛ cz₀ -sz₀ 0 ⎞
          -- ⎜ r₁₀ r₁₁ r₁₂ ⎟ = ⎜ sz₁  cz₁ 0 ⎟ · ⎜ 0   1  0  ⎟ · ⎜ sz₀  cz₀ 0 ⎟
-         -- ⎝ r₂₀ r₂₁ r₂₂ ⎠   ⎝ 0    0   1 ⎠   ⎝ sy  0  cy ⎠   ⎝ 0    0   1 ⎠
+         -- ⎝ r₂₀ r₂₁ r₂₂ ⎠   ⎝ 0    0   1 ⎠   ⎝-sy  0  cy ⎠   ⎝ 0    0   1 ⎠
          --
-         --      ⎛ cz₁ -sz₁ 0 ⎞   ⎛ cy·cz₀ -cy·sz₀ -sy ⎞
+         --      ⎛ cz₁ -sz₁ 0 ⎞   ⎛ cy·cz₀ -cy·sz₀  sy ⎞
          --    = ⎜ sz₁  cz₁ 0 ⎟ · ⎜  sz₀     cz₀    0  ⎟
-         --      ⎝  0    0  1 ⎠   ⎝ sy·cz₀    0     cy ⎠
+         --      ⎝  0    0  1 ⎠   ⎝-sy·cz₀  sy·sz₀  cy ⎠
          --
-         --      ⎛ cy·cz₀·cz₁−sz₀·sz₁  -cz₁·sz₀−cy·cz₀·sz₁   sy·cz₀ ⎞
-         --    = ⎜ cy·cz₁·sz₀+cz₀·sz₁   cz₀·cz₁−cy·sz₀·sz₁   sy·sz₀ ⎟
-         --      ⎝      -sy·cz₁               sy·sz₁           cy   ⎠
+         --      ⎛ cy·cz₀·cz₁−sz₀·sz₁ -cy·sz₀·cz₁−cz₀·sz₁   sy·cz₁ ⎞
+         --    = ⎜ cy·cz₀·sz₁+cz₁·sz₀  cz₀·cz₁−cy·sz₀·sz₁   sy·sz₁ ⎟
+         --      ⎝      -sy·cz₀              sy·sz₀           cy   ⎠
          --
          -- Here, one can immediately read off
               cy = r₂₂
@@ -105,19 +105,18 @@ eulerAnglesZYZForMatrix [[r₀₀,r₀₁,r₀₂]
          -- We can always choose
          --   θz₀ = atan2 sz₀ cz₀
          --       = atan2 (sy·sz₀) (sy·cz₀)  ∀sy‡0
-              θz₀ = atan2 r₁₂ r₀₂  ; sz₀ = sin θz₀; cz₀ = cos θz₀
+              θz₀ = atan2 r₂₁ (-r₂₀)  ; sz₀ = sin θz₀; cz₀ = cos θz₀
          -- ...noting however that this becomes underconstrained for small |sy|, so
          -- the analogous θz₁ = atan2 r₂₁ (-r₂₀) should /not/ be used. Instead, put
          -- in the y unit vector turned back by θz₀ (θy has no effect):
-         -- ⎛ r₀₀ r₀₁ r₀₂ ⎞   ⎛ cy·cz₀ -cy·sz₀ -sy ⎞⁻¹  ⎛0⎞   ⎛ cz₁ -sz₁ 0 ⎞⎛0⎞   ⎛-sz₁⎞
+         -- ⎛ r₀₀ r₀₁ r₀₂ ⎞   ⎛ cy·cz₀ -cy·sz₀  sy ⎞⁻¹  ⎛0⎞   ⎛ cz₁ -sz₁ 0 ⎞⎛0⎞   ⎛-sz₁⎞
          -- ⎜ r₁₀ r₁₁ r₁₂ ⎟ · ⎜  sz₀     cz₀    0  ⎟  $ ⎜1⎟ = ⎜ sz₁  cz₁ 0 ⎟⎜1⎟ = ⎜ cz₁⎟
-         -- ⎝ r₂₀ r₂₁ r₂₂ ⎠   ⎝ sy·cz₀    0     cy ⎠    ⎝0⎠   ⎝  0    0  1 ⎠⎝0⎠   ⎝  0 ⎠
+         -- ⎝ r₂₀ r₂₁ r₂₂ ⎠   ⎝-sy·cz₀  sy·sz₀  cy ⎠    ⎝0⎠   ⎝  0    0  1 ⎠⎝0⎠   ⎝  0 ⎠
          --
          -- Here we have, using orthogonality,
-         -- ⎛ cy·cz₀ -cy·sz₀ -sy ⎞⁻¹⎛0⎞   ⎛  cy·cz₀  sz₀ sy·cz₀ ⎞⎛0⎞   ⎛sz₀⎞
-         -- ⎜  sz₀     cz₀    0  ⎟  ⎜1⎟ = ⎜ -cy·sz₀  cz₀   0    ⎟⎜1⎟ = ⎜cz₀⎟
-         -- ⎝ sy·cz₀    0     cy ⎠  ⎝0⎠   ⎝   -sy     0    cy   ⎠⎝0⎠   ⎝ 0 ⎠
-         -- 
+         -- ⎛ cy·cz₀ -cy·sz₀  sy ⎞⁻¹⎛0⎞   ⎛  cy·cz₀  sz₀ -sy·cz₀ ⎞⎛0⎞   ⎛sz₀⎞
+         -- ⎜  sz₀     cz₀    0  ⎟  ⎜1⎟ = ⎜ -cy·sz₀  cz₀  sy·sz₀ ⎟⎜1⎟ = ⎜cz₀⎟
+         -- ⎝-sy·cz₀  sy·sz₀  cy ⎠  ⎝0⎠   ⎝    sy     0     cy   ⎠⎝0⎠   ⎝ 0 ⎠
               θz₁ = atan2 (-r₀₀*sz₀ - r₀₁*cz₀)
                           ( r₁₀*sz₀ + r₁₁*cz₀)
 

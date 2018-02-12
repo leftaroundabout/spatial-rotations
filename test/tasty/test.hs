@@ -56,29 +56,29 @@ tests = testGroup "Tests"
     ]
  , testGroup "Euler angles"
     [ testCase "180° x-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis xAxis (S¹ π))
-                      @?≈ [-π'₄,  π , π³₄]
+                      @?≈ [ π³₄,  π ,-π'₄]
     , testCase " 90° x-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis xAxis (S¹ π'₂))
-                      @?≈ [-π'₂, π'₂, π'₂]
-    , testCase "-90° x-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis xAxis (S¹ $ -π'₂))
                       @?≈ [ π'₂, π'₂,-π'₂]
+    , testCase "-90° x-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis xAxis (S¹ $ -π'₂))
+                      @?≈ [-π'₂, π'₂, π'₂]
     , testCase " 45° x-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis xAxis (S¹ π'₄))
-                      @?≈ [-π'₂, π'₄, π'₂]
+                      @?≈ [ π'₂, π'₄,-π'₂]
     , testCase "180° y-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis yAxis (S¹ π))
                       @?≈ [ π'₄, π  , π'₄]
     , testCase " 90° y-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis yAxis (S¹ π'₂))
                       @?≈ [ 0  , π'₂, 0  ]
     , testCase "-90° y-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis yAxis (S¹ $ -π'₂))
-                      @?≈ [ π  , π'₂, π  ]
+                      @?≈ [-π  , π'₂, π  ]
     , testCase " 45° y-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis yAxis (S¹ π'₄))
                       @?≈ [ 0  , π'₄, 0  ]
     , testCase "180° z-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis zAxis (S¹ π))
-                      @?≈ [ 0  ,  0 , π  ]
+                      @?≈ [ π  ,  0 , 0  ]
     , testCase " 90° z-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis zAxis (S¹ π'₂))
-                      @?≈ [ 0  ,  0 , π'₂]
+                      @?≈ [ π  ,  0 ,-π'₂]
     , testCase "-90° z-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis zAxis (S¹ $ -π'₂))
-                      @?≈ [ 0  ,  0 ,-π'₂]
+                      @?≈ [ π  ,  0 , π'₂]
     , testCase " 45° z-axis" $ eulerAnglesZYZForMatrix (rotmatrixForAxis zAxis (S¹ π'₄))
-                      @?≈ [ 0  , 0  , π'₄]
+                      @?≈ [ π  , 0  ,-π³₄]
     , QC.testProperty "Arbitrary rotation-matrix reconstruction"
          $ \ax α -> let mat = rotmatrixForAxis ax α
                     in rotmatrixForEulerAnglesZYZ (eulerAnglesZYZForMatrix mat) ≈ mat
