@@ -12,6 +12,9 @@
 
 module Math.Rotations.Class ( Rotatable (..)
                             , rotateX, rotateY, rotateZ
+                            -- * Internals
+                            , rotmatrixForAxis
+                            , eulerAnglesZYZForMatrix
                             ) where
 
 import Math.Manifold.Core.Types
@@ -34,14 +37,17 @@ rotateViaEulerAnglesYZ
   :: (S¹ -> m -> m)        -- ^ Y-axis rotation method
   -> (S¹ -> m -> m)        -- ^ Z-axis rotation method
   -> (ℝP² -> S¹ -> m -> m) -- ^ Suitable definition for 'rotateAbout'
-rotateViaEulerAnglesYZ yRot zRot (ℝP² rax φax) = rotAroundAxis
- where rotAroundAxis (S¹ θ) = zRot (S¹ θz₀) . yRot (S¹ θy) . zRot (S¹ θz₁)
-        where cosθ = cos θ
-              sinθ = sin θ
-              one_cosθ = 1 - cos θ
-              
+rotateViaEulerAnglesYZ yRot zRot ax = rotAroundAxis . rotmatrixForAxis ax
+ where rotAroundAxis mat = case eulerAnglesZYZForMatrix mat of
+          [θz₀, θy, θz₁] -> zRot (S¹ θz₀) . yRot (S¹ θy) . zRot (S¹ θz₁)
+
+rotmatrixForAxis :: ℝP² -> S¹ -> [[ℝ]]
+rotmatrixForAxis (ℝP² rax φax) = rotAroundAxis
+ where rotAroundAxis (S¹ θ) = [[r₀₀,r₀₁,r₀₂]
+                              ,[r₁₀,r₁₁,r₁₂]
+                              ,[r₂₀,r₂₁,r₂₂]]
          -- https://en.wikipedia.org/w/index.php?title=Rotation_formalisms_in_three_dimensions&oldid=823164970#Rotation_matrix_%E2%86%94_Euler_axis/angle
-              r₀₀ = one_cosθ*e₀^2  + cosθ
+        where r₀₀ = one_cosθ*e₀^2  + cosθ
               r₀₁ = one_cosθ*e₀*e₁ - e₂*sinθ
               r₀₂ = one_cosθ*e₀*e₂ + e₁*sinθ
               r₁₀ = one_cosθ*e₁*e₀ + e₂*sinθ
@@ -50,7 +56,21 @@ rotateViaEulerAnglesYZ yRot zRot (ℝP² rax φax) = rotAroundAxis
               r₂₀ = one_cosθ*e₂*e₀ - e₁*sinθ
               r₂₁ = one_cosθ*e₂*e₁ + e₀*sinθ
               r₂₂ = one_cosθ*e₂^2  + cosθ
+              cosθ = cos θ
+              sinθ = sin θ
+              one_cosθ = 1 - cos θ
+       
+       θax = pi/2 * rax
+       e₀ = cos φax * sin θax
+       e₁ = sin φax * sin θax
+       e₂ = cos θax
 
+eulerAnglesZYZForMatrix :: [[ℝ]] -> [ℝ]             
+eulerAnglesZYZForMatrix [[r₀₀,r₀₁,r₀₂]
+                        ,[r₁₀,r₁₁,r₁₂]
+                        ,[r₂₀,r₂₁,r₂₂]]
+           = [θz₀,θy,θz₁]
+ where
          -- Rotation matrix for z₀-y-z₁ rotation, with cy := cos θy etc.:
          --
          -- ⎛ r₀₀ r₀₁ r₀₂ ⎞   ⎛ cz₁ -sz₁ 0 ⎞   ⎛ cy  0 -sy ⎞   ⎛ cz₀ -sz₀ 0 ⎞
@@ -91,11 +111,6 @@ rotateViaEulerAnglesYZ yRot zRot (ℝP² rax φax) = rotAroundAxis
          -- 
               θz₁ = atan2 (-r₀₀*sz₀ - r₀₁*cz₀)
                           ( r₁₀*sz₀ + r₁₁*cz₀)
-       
-       θax = pi/2 * rax
-       e₀ = cos φax * sin θax
-       e₁ = sin φax * sin θax
-       e₂ = cos θax
 
 
 instance Rotatable S² where
