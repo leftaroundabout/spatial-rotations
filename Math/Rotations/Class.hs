@@ -9,6 +9,7 @@
 -- 
 
 {-# LANGUAGE TypeFamilies             #-}
+{-# LANGUAGE FlexibleInstances        #-}
 
 module Math.Rotations.Class ( Rotatable (..)
                             , rotateX, rotateY, rotateZ
@@ -25,6 +26,9 @@ class Rotatable m where
   type AxisSpace m :: *
   rotateAbout :: AxisSpace m -> S¹ -> m -> m
 
+instance (Rotatable m) => Rotatable (m -> Double) where
+  type AxisSpace (m -> Double) = AxisSpace m
+  rotateAbout ax (S¹ δφ) f = f . rotateAbout ax (S¹ $ -δφ)
 
 instance Rotatable S¹ where
   type AxisSpace S¹ = ℝP⁰
