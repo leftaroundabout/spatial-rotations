@@ -85,43 +85,34 @@ tests = testGroup "Tests"
     ]
  , testGroup "Concrete 180° rotations"
     [ testCase "x around x" $ rotateX (S¹ π) (S² π'₂ 0  ) @?≈ S² π'₂ 0
-    , testCase "..and back" $ rotateX (S¹ $ -π)              (S² π'₂ 0     )@?≈ S² π'₂ 0
+    , testCase "..full rot" $ rotateX (S¹ π)                 (S² π'₂ 0     )@?≈ S² π'₂ 0
     , testCase "x around y" $ rotateY (S¹ π) (S² π'₂ 0  ) @?≈ S² π'₂ π
-    , testCase "..and back" $ rotateY (S¹ $ -π)              (S² π'₂ π     )@?≈ S² π'₂ 0
+    , testCase "..full rot" $ rotateY (S¹ π)                 (S² π'₂ π     )@?≈ S² π'₂ 0
     , testCase "x around z" $ rotateZ (S¹ π) (S² π'₂ 0  ) @?≈ S² π'₂ π
-    , testCase "..and back" $ rotateZ (S¹ $ -π)              (S² π'₂ π     )@?≈ S² π'₂ 0
+    , testCase "..full rot" $ rotateZ (S¹ π)                 (S² π'₂ π     )@?≈ S² π'₂ 0
     , testCase "y around x" $ rotateX (S¹ π) (S² π'₂ π'₂) @?≈ S² π'₂ (-π'₂)
-    , testCase "..and back" $ rotateX (S¹ $ -π)              (S² π'₂ (-π'₂))@?≈ S² π'₂ π'₂
+    , testCase "..full rot" $ rotateX (S¹ π)                 (S² π'₂ (-π'₂))@?≈ S² π'₂ π'₂
     , testCase "y around y" $ rotateY (S¹ π) (S² π'₂ π'₂) @?≈ S² π'₂ π'₂
-    , testCase "..and back" $ rotateY (S¹ $ -π)              (S² π'₂ π'₂   )@?≈ S² π'₂ π'₂
+    , testCase "..full rot" $ rotateY (S¹ π)                 (S² π'₂ π'₂   )@?≈ S² π'₂ π'₂
     , testCase "y around z" $ rotateZ (S¹ π) (S² π'₂ π'₂) @?≈ S² π'₂ (-π'₂)
-    , testCase "..and back" $ rotateZ (S¹ $ -π)              (S² π'₂ (-π'₂))@?≈ S² π'₂ π'₂
+    , testCase "..full rot" $ rotateZ (S¹ π)                 (S² π'₂ (-π'₂))@?≈ S² π'₂ π'₂
     , testCase "z around x" $ rotateX (S¹ π) (S² 0   0  ) @?≈ S² π   0
-    , testCase "..and back" $ rotateX (S¹ $ -π)              (S² π   0     )@?≈ S² 0   0
+    , testCase "..full rot" $ rotateX (S¹ π)                 (S² π   0     )@?≈ S² 0   0
     , testCase "z around y" $ rotateY (S¹ π) (S² 0   0  ) @?≈ S² π   0
-    , testCase "..and back" $ rotateY (S¹ $ -π)              (S² π   0     )@?≈ S² 0   0
+    , testCase "..full rot" $ rotateY (S¹ π)                 (S² π   0     )@?≈ S² 0   0
     , testCase "z around z" $ rotateZ (S¹ π) (S² 0   0  ) @?≈ S² 0   0
-    , testCase "..and back" $ rotateZ (S¹ $ -π)              (S² 0   0     )@?≈ S² 0   0
+    , testCase "..full rot" $ rotateZ (S¹ π)                 (S² 0   0     )@?≈ S² 0   0
     ]
  , testGroup "Concrete 90° rotations"
     [ testCase "x around x" $ rotateX (S¹ π'₂) (S² π'₂ 0  ) @?≈ S² π'₂ 0
-    , testCase "..and back" $ rotateX (S¹ $ -π'₂)              (S² π'₂ 0     )@?≈ S² π'₂ 0
     , testCase "x around y" $ rotateY (S¹ π'₂) (S² π'₂ 0  ) @?≈ S² π   0
-    , testCase "..and back" $ rotateY (S¹ $ -π'₂)              (S² π   0     )@?≈ S² π'₂ 0
     , testCase "x around z" $ rotateZ (S¹ π'₂) (S² π'₂ 0  ) @?≈ S² π'₂ π'₂
-    , testCase "..and back" $ rotateZ (S¹ $ -π'₂)              (S² π'₂ π'₂   )@?≈ S² π'₂ 0
     , testCase "y around x" $ rotateX (S¹ π'₂) (S² π'₂ π'₂) @?≈ S² 0   0
-    , testCase "..and back" $ rotateX (S¹ $ -π'₂)              (S² 0   0     )@?≈ S² π'₂ π'₂
     , testCase "y around y" $ rotateY (S¹ π'₂) (S² π'₂ π'₂) @?≈ S² π'₂ π'₂
-    , testCase "..and back" $ rotateY (S¹ $ -π'₂)              (S² π'₂ π'₂   )@?≈ S² π'₂ π'₂
     , testCase "y around z" $ rotateZ (S¹ π'₂) (S² π'₂ π'₂) @?≈ S² π'₂ π
-    , testCase "..and back" $ rotateZ (S¹ $ -π'₂)              (S² π'₂ π     )@?≈ S² π'₂ π'₂
     , testCase "z around x" $ rotateX (S¹ π'₂) (S² 0   0  ) @?≈ S² π'₂ (-π'₂)
-    , testCase "..and back" $ rotateX (S¹ $ -π'₂)              (S² π'₂ (-π'₂))@?≈ S² 0   0
     , testCase "z around y" $ rotateY (S¹ π'₂) (S² 0   0  ) @?≈ S² π'₂ 0
-    , testCase "..and back" $ rotateY (S¹ $ -π'₂)              (S² π'₂ 0     )@?≈ S² 0   0
     , testCase "z around z" $ rotateZ (S¹ π'₂) (S² 0   0  ) @?≈ S² 0   π'₂
-    , testCase "..and back" $ rotateZ (S¹ $ -π'₂)              (S² 0   π'₂   )@?≈ S² 0   0
     
     , testCase "around y, over x" $ rotateY (S¹ π'₂) (S² π'₄  0   ) @?≈ S² π³₄ 0
     , testCase "around z, over x" $ rotateZ (S¹ π'₂) (S² π'₂(-π'₄)) @?≈ S² π'₂ π'₄
