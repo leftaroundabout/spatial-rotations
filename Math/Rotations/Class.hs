@@ -40,7 +40,7 @@ rotateViaEulerAnglesYZ
   -> (ℝP² -> S¹ -> m -> m) -- ^ Suitable definition for 'rotateAbout'
 rotateViaEulerAnglesYZ yRot zRot ax = rotAroundAxis . rotmatrixForAxis ax
  where rotAroundAxis mat = case eulerAnglesZYZForMatrix mat of
-          [θz₀, θy, θz₁] -> zRot (S¹ θz₀) . yRot (S¹ θy) . zRot (S¹ θz₁)
+          [θz₀, θy, θz₁] -> zRot (S¹ θz₁) . yRot (S¹ θy) . zRot (S¹ θz₀)
 
 rotmatrixForAxis :: ℝP² -> S¹ -> [[ℝ]]
 rotmatrixForAxis (ℝP² rax φax) = rotAroundAxis
