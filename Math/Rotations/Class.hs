@@ -47,7 +47,7 @@ rotateViaEulerAnglesYZ yRot zRot ax = rotAroundAxis . rotmatrixForAxis ax
           [θz₀, θy, θz₁] -> zRot (S¹Polar θz₁) . yRot (S¹Polar θy) . zRot (S¹Polar θz₀)
 
 rotmatrixForAxis :: ℝP² -> S¹ -> [[ℝ]]
-rotmatrixForAxis (UnitDiskℝP²Polar rax φax) = rotAroundAxis
+rotmatrixForAxis (HemisphereℝP²Polar θax φax) = rotAroundAxis
  where rotAroundAxis (S¹Polar θ) = [[r₀₀,r₀₁,r₀₂]
                                    ,[r₁₀,r₁₁,r₁₂]
                                    ,[r₂₀,r₂₁,r₂₂]]
@@ -65,7 +65,6 @@ rotmatrixForAxis (UnitDiskℝP²Polar rax φax) = rotAroundAxis
               sinθ = sin θ
               one_cosθ = 1 - cos θ
        
-       θax = pi/2 * rax
        e₀ = cos φax * sin θax
        e₁ = sin φax * sin θax
        e₂ = cos θax
@@ -140,9 +139,9 @@ instance Rotatable S² where
 
 rotateX, rotateY, rotateZ :: (Rotatable m, AxisSpace m ~ ℝP²)
            => S¹ -> m -> m
-rotateX = rotateAbout $ UnitDiskℝP²Polar 1 0
-rotateY = rotateAbout $ UnitDiskℝP²Polar 1 (pi/2)
-rotateZ = rotateAbout $ UnitDiskℝP²Polar 0 0
+rotateX = rotateAbout $ HemisphereℝP²Polar (pi/2) 0
+rotateY = rotateAbout $ HemisphereℝP²Polar (pi/2) (pi/2)
+rotateZ = rotateAbout $ HemisphereℝP²Polar 0      0
 
 tau :: ℝ
 tau = 2*pi
