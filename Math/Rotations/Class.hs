@@ -13,6 +13,8 @@
 
 module Math.Rotations.Class ( Rotatable (..)
                             , rotateX, rotateY, rotateZ
+                            -- * Utility
+                            , rotateViaEulerAnglesYZ
                             -- * Internals
                             , rotmatrixForAxis
                             , eulerAnglesZYZForMatrix
