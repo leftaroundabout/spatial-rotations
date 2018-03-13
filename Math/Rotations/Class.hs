@@ -16,6 +16,7 @@ module Math.Rotations.Class ( Rotatable (..)
                             , (°)
                             -- * Utility
                             , rotateViaEulerAnglesYZ
+                            , rotateℝ³AboutCenteredAxis
                             -- * Internals
                             , rotmatrixForAxis
                             , eulerAnglesZYZForMatrix
@@ -24,6 +25,7 @@ module Math.Rotations.Class ( Rotatable (..)
 
 import Math.Manifold.Core.Types
 import Data.VectorSpace
+import Linear.V3 (V3(V3))
 
 class Rotatable m where
   type AxisSpace m :: *
@@ -150,6 +152,15 @@ infix 5 °
 -- | Rotate by an angle specified in degrees.
 (°) :: Rotatable m => ℝ -> AxisSpace m -> m -> m
 angle° axis = rotateAbout axis . S¹Polar $ angle * pi/180
+
+
+rotateℝ³AboutCenteredAxis :: ℝP² -> S¹ -> V3 ℝ -> V3 ℝ
+rotateℝ³AboutCenteredAxis axis angle = case rotmatrixForAxis axis angle of
+     [ [r₀₀,r₀₁,r₀₂]
+      ,[r₁₀,r₁₁,r₁₂]
+      ,[r₂₀,r₂₁,r₂₂] ] -> \(V3 x y z) -> V3 (r₀₀*x + r₀₁*y + r₀₂*z)
+                                            (r₁₀*x + r₁₁*y + r₁₂*z)
+                                            (r₂₀*x + r₂₁*y + r₂₂*z)
 
 tau :: ℝ
 tau = 2*pi
