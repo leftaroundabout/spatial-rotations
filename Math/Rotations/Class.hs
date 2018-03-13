@@ -12,7 +12,8 @@
 {-# LANGUAGE FlexibleInstances        #-}
 
 module Math.Rotations.Class ( Rotatable (..)
-                            , rotateX, rotateY, rotateZ
+                            , xAxis, yAxis, zAxis
+                            , (°)
                             -- * Utility
                             , rotateViaEulerAnglesYZ
                             -- * Internals
@@ -139,11 +140,16 @@ instance Rotatable S² where
        (\γ (S²Polar θ φ) -> case rotateAbout ℝPZero γ (S¹Polar φ) of
                               S¹Polar φ' -> S²Polar θ φ')
 
-rotateX, rotateY, rotateZ :: (Rotatable m, AxisSpace m ~ ℝP²)
-           => S¹ -> m -> m
-rotateX = rotateAbout $ HemisphereℝP²Polar (pi/2) 0
-rotateY = rotateAbout $ HemisphereℝP²Polar (pi/2) (pi/2)
-rotateZ = rotateAbout $ HemisphereℝP²Polar 0      0
+xAxis, yAxis, zAxis :: ℝP²
+xAxis = HemisphereℝP²Polar (pi/2) 0
+yAxis = HemisphereℝP²Polar (pi/2) (pi/2)
+zAxis = HemisphereℝP²Polar 0      0
+
+infix 5 °
+
+-- | Rotate by an angle specified in degrees.
+(°) :: Rotatable m => ℝ -> AxisSpace m -> m -> m
+angle° axis = rotateAbout axis . S¹Polar $ angle * pi/180
 
 tau :: ℝ
 tau = 2*pi

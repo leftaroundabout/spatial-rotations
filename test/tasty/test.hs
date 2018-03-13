@@ -84,53 +84,53 @@ tests = testGroup "Tests"
                     in rotmatrixForEulerAnglesZYZ (eulerAnglesZYZForMatrix mat) ≈ mat
     ]
  , testGroup "Concrete 180° rotations"
-    [ testCase "x around x" $ rotateX (rad π) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  0
-    , testCase "..full rot" $ rotateX (rad π)                (π'₂ ⦺  0  )@?≈ π'₂ ⦺ 0
-    , testCase "x around y" $ rotateY (rad π) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  π
-    , testCase "..full rot" $ rotateY (rad π)                (π'₂ ⦺  π  )@?≈ π'₂ ⦺ 0
-    , testCase "x around z" $ rotateZ (rad π) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  π
-    , testCase "..full rot" $ rotateZ (rad π)                (π'₂ ⦺  π  )@?≈ π'₂ ⦺ 0
-    , testCase "y around x" $ rotateX (rad π) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺ -π'₂
-    , testCase "..full rot" $ rotateX (rad π)                (π'₂ ⦺ -π'₂)@?≈ π'₂ ⦺ π'₂
-    , testCase "y around y" $ rotateY (rad π) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺  π'₂
-    , testCase "..full rot" $ rotateY (rad π)                (π'₂ ⦺  π'₂)@?≈ π'₂ ⦺ π'₂
-    , testCase "y around z" $ rotateZ (rad π) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺ -π'₂
-    , testCase "..full rot" $ rotateZ (rad π)                (π'₂ ⦺ -π'₂)@?≈ π'₂ ⦺ π'₂
-    , testCase "z around x" $ rotateX (rad π) (0   ⦺ 0  ) @?≈ π   ⦺  0
-    , testCase "..full rot" $ rotateX (rad π)                (π   ⦺  0  )@?≈ 0 ⦺ 0
-    , testCase "z around y" $ rotateY (rad π) (0   ⦺ 0  ) @?≈ π   ⦺  0
-    , testCase "..full rot" $ rotateY (rad π)                (π   ⦺  0  )@?≈ 0 ⦺ 0
-    , testCase "z around z" $ rotateZ (rad π) (0   ⦺ 0  ) @?≈ 0   ⦺  0
-    , testCase "..full rot" $ rotateZ (rad π)                (0   ⦺  0  )@?≈ 0 ⦺ 0
+    [ testCase "x around x" $ (180° xAxis) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  0
+    , testCase "..full rot" $ (180° xAxis)                (π'₂ ⦺  0  )@?≈ π'₂ ⦺ 0
+    , testCase "x around y" $ (180° yAxis) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  π
+    , testCase "..full rot" $ (180° yAxis)                (π'₂ ⦺  π  )@?≈ π'₂ ⦺ 0
+    , testCase "x around z" $ (180° zAxis) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  π
+    , testCase "..full rot" $ (180° zAxis)                (π'₂ ⦺  π  )@?≈ π'₂ ⦺ 0
+    , testCase "y around x" $ (180° xAxis) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺ -π'₂
+    , testCase "..full rot" $ (180° xAxis)                (π'₂ ⦺ -π'₂)@?≈ π'₂ ⦺ π'₂
+    , testCase "y around y" $ (180° yAxis) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺  π'₂
+    , testCase "..full rot" $ (180° yAxis)                (π'₂ ⦺  π'₂)@?≈ π'₂ ⦺ π'₂
+    , testCase "y around z" $ (180° zAxis) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺ -π'₂
+    , testCase "..full rot" $ (180° zAxis)                (π'₂ ⦺ -π'₂)@?≈ π'₂ ⦺ π'₂
+    , testCase "z around x" $ (180° xAxis) (0   ⦺ 0  ) @?≈ π   ⦺  0
+    , testCase "..full rot" $ (180° xAxis)                (π   ⦺  0  )@?≈ 0 ⦺ 0
+    , testCase "z around y" $ (180° yAxis) (0   ⦺ 0  ) @?≈ π   ⦺  0
+    , testCase "..full rot" $ (180° yAxis)                (π   ⦺  0  )@?≈ 0 ⦺ 0
+    , testCase "z around z" $ (180° zAxis) (0   ⦺ 0  ) @?≈ 0   ⦺  0
+    , testCase "..full rot" $ (180° zAxis)                (0   ⦺  0  )@?≈ 0 ⦺ 0
     ]
  , testGroup "Concrete 90° rotations"
-    [ testCase "x around x" $ rotateX (rad π'₂) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺ 0
-    , testCase "x around y" $ rotateY (rad π'₂) (π'₂ ⦺ 0  ) @?≈ π   ⦺ 0
-    , testCase "x around z" $ rotateZ (rad π'₂) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺ π'₂
-    , testCase "y around x" $ rotateX (rad π'₂) (π'₂ ⦺ π'₂) @?≈ 0   ⦺ 0
-    , testCase "y around y" $ rotateY (rad π'₂) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺ π'₂
-    , testCase "y around z" $ rotateZ (rad π'₂) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺ π
-    , testCase "z around x" $ rotateX (rad π'₂) (0   ⦺ 0  ) @?≈ π'₂ ⦺ (-π'₂)
-    , testCase "z around y" $ rotateY (rad π'₂) (0   ⦺ 0  ) @?≈ π'₂ ⦺ 0
-    , testCase "z around z" $ rotateZ (rad π'₂) (0   ⦺ 0  ) @?≈ 0   ⦺ π'₂
+    [ testCase "x around x" $ (90° xAxis) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺ 0
+    , testCase "x around y" $ (90° yAxis) (π'₂ ⦺ 0  ) @?≈ π   ⦺ 0
+    , testCase "x around z" $ (90° zAxis) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺ π'₂
+    , testCase "y around x" $ (90° xAxis) (π'₂ ⦺ π'₂) @?≈ 0   ⦺ 0
+    , testCase "y around y" $ (90° yAxis) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺ π'₂
+    , testCase "y around z" $ (90° zAxis) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺ π
+    , testCase "z around x" $ (90° xAxis) (0   ⦺ 0  ) @?≈ π'₂ ⦺ (-π'₂)
+    , testCase "z around y" $ (90° yAxis) (0   ⦺ 0  ) @?≈ π'₂ ⦺ 0
+    , testCase "z around z" $ (90° zAxis) (0   ⦺ 0  ) @?≈ 0   ⦺ π'₂
     
-    , testCase "around y, over x" $ rotateY (rad π'₂) (π'₄ ⦺  0  ) @?≈ π³₄ ⦺ 0
-    , testCase "around z, over x" $ rotateZ (rad π'₂) (π'₂ ⦺ -π'₄) @?≈ π'₂ ⦺ π'₄
-    , testCase "around x, over y" $ rotateX (rad π'₂) (π³₄ ⦺  π'₂) @?≈ π'₄ ⦺ π'₂
-    , testCase "around z, over y" $ rotateZ (rad π'₂) (π'₂ ⦺  π'₄) @?≈ π'₂ ⦺ π³₄
-    , testCase "around x, over z" $ rotateX (rad π'₂) (π'₄ ⦺  π'₂) @?≈ π'₄ ⦺ -π'₂
-    , testCase "around y, over z" $ rotateY (rad π'₂) (π'₄ ⦺  π  ) @?≈ π'₄ ⦺ 0
+    , testCase "around y, over x" $ (90° yAxis) (π'₄ ⦺  0  ) @?≈ π³₄ ⦺ 0
+    , testCase "around z, over x" $ (90° zAxis) (π'₂ ⦺ -π'₄) @?≈ π'₂ ⦺ π'₄
+    , testCase "around x, over y" $ (90° xAxis) (π³₄ ⦺  π'₂) @?≈ π'₄ ⦺ π'₂
+    , testCase "around z, over y" $ (90° zAxis) (π'₂ ⦺  π'₄) @?≈ π'₂ ⦺ π³₄
+    , testCase "around x, over z" $ (90° xAxis) (π'₄ ⦺  π'₂) @?≈ π'₄ ⦺ -π'₂
+    , testCase "around y, over z" $ (90° yAxis) (π'₄ ⦺  π  ) @?≈ π'₄ ⦺ 0
     ]
  , testGroup "Concrete 45° rotations"
-    [ testCase "x around x" $ rotateX (rad π'₄) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  0
-    , testCase "x around y" $ rotateY (rad π'₄) (π'₂ ⦺ 0  ) @?≈ π³₄ ⦺  0
-    , testCase "x around z" $ rotateZ (rad π'₄) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  π'₄
-    , testCase "y around x" $ rotateX (rad π'₄) (π'₂ ⦺ π'₂) @?≈ π'₄ ⦺  π'₂
-    , testCase "y around y" $ rotateY (rad π'₄) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺  π'₂
-    , testCase "y around z" $ rotateZ (rad π'₄) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺  π³₄
-    , testCase "z around x" $ rotateX (rad π'₄) (0   ⦺ 0  ) @?≈ π'₄ ⦺ -π'₂
-    , testCase "z around y" $ rotateY (rad π'₄) (0   ⦺ 0  ) @?≈ π'₄ ⦺  0
-    , testCase "z around z" $ rotateZ (rad π'₄) (0   ⦺ 0  ) @?≈ 0   ⦺  π'₂
+    [ testCase "x around x" $ (45° xAxis) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  0
+    , testCase "x around y" $ (45° yAxis) (π'₂ ⦺ 0  ) @?≈ π³₄ ⦺  0
+    , testCase "x around z" $ (45° zAxis) (π'₂ ⦺ 0  ) @?≈ π'₂ ⦺  π'₄
+    , testCase "y around x" $ (45° xAxis) (π'₂ ⦺ π'₂) @?≈ π'₄ ⦺  π'₂
+    , testCase "y around y" $ (45° yAxis) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺  π'₂
+    , testCase "y around z" $ (45° zAxis) (π'₂ ⦺ π'₂) @?≈ π'₂ ⦺  π³₄
+    , testCase "z around x" $ (45° xAxis) (0   ⦺ 0  ) @?≈ π'₄ ⦺ -π'₂
+    , testCase "z around y" $ (45° yAxis) (0   ⦺ 0  ) @?≈ π'₄ ⦺  0
+    , testCase "z around z" $ (45° zAxis) (0   ⦺ 0  ) @?≈ 0   ⦺  π'₂
     ]
  , testGroup "Reversability"
     [ QC.testProperty "Arbitrary axis, angles and points"
@@ -171,11 +171,6 @@ infix 1 @?≈
 a@?≈b
  | a≈b        = return ()
  | otherwise  = assertFailure $ "Expected "++show b++", but got "++show a
-
-xAxis, yAxis, zAxis :: ℝP²
-xAxis = HemisphereℝP²Polar (pi/2) 0
-yAxis = HemisphereℝP²Polar (pi/2) (pi/2)
-zAxis = HemisphereℝP²Polar 0      0
 
 rad :: Double -> S¹
 rad = S¹Polar
