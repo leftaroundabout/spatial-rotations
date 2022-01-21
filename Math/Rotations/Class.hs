@@ -24,6 +24,7 @@ module Math.Rotations.Class ( Rotatable (..)
                             ) where
 
 import Math.Manifold.Core.Types
+import Math.Manifold.Core.PseudoAffine
 import Data.VectorSpace
 import Linear.V3 (V3(V3))
 
@@ -161,6 +162,3 @@ rotateℝ³AboutCenteredAxis axis angle = case rotmatrixForAxis axis angle of
       ,[r₂₀,r₂₁,r₂₂] ] -> \(V3 x y z) -> V3 (r₀₀*x + r₀₁*y + r₀₂*z)
                                             (r₁₀*x + r₁₁*y + r₁₂*z)
                                             (r₂₀*x + r₂₁*y + r₂₂*z)
-
-tau :: ℝ
-tau = 2*pi
