@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                spatial-rotations
-version:             0.1.0.1
+version:             0.1.0.2
 synopsis:            Rotate about any suitable axis
 -- description:         
 homepage:            https://github.com/leftaroundabout/rotations
